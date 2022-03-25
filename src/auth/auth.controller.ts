@@ -1,8 +1,16 @@
 // ========== Import All Modules
 
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
+
+interface MyReq extends Request {
+	app: {
+		locals: {
+			decode: string | null | undefined;
+		};
+	};
+}
 
 @Controller('auth')
 export class AuthController {
@@ -10,8 +18,8 @@ export class AuthController {
 
 	// Start writing logic of register
 	@Post('register')
-	public async register(@Body() dto: AuthDto) {
-		return await this.authService.register(dto);
+	public async register(@Body() dto: AuthDto, @Request() req: MyReq) {
+		return await this.authService.register(dto, req);
 	}
 
 	// validation
@@ -51,8 +59,8 @@ export class AuthController {
 	// }
 
 	@Post('login')
-	public login() {
-		return this.authService.login();
+	public login(@Body() dto: AuthDto) {
+		return this.authService.login(dto);
 		// return {
 		//   type: 'success',
 		//   message: 'This is a login endpoint',

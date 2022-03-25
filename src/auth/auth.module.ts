@@ -1,17 +1,25 @@
 // ========== Import All Modules
 
-import { Module } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 // import { PrismaModule } from 'src/prisma/prisma.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthMiddleware } from 'src/middlewares/auth.middleware';
 
+@Global()
 @Module({
 	// agar Prisma module bisa di pake di auth module
 	// imports: [PrismaModule],
+	imports: [JwtModule.register({})],
 	controllers: [AuthController],
 	providers: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+	public configure(consumer: MiddlewareConsumer) {
+		consumer.apply(AuthMiddleware).forRoutes('/auth/register');
+	}
+}
 
 /*
 	========== Belajar Modules ==========
