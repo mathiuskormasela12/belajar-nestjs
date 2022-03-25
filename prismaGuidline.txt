@@ -1,0 +1,18 @@
+Setup Prisma
+
+1. Install the prisma package
+npm install --save-dev prisma
+
+2. Install the @prisma/client package
+npm i @prisma/client         
+
+3. Init the prisma package
+npx prisma init
+
+4. Creating your model on the prisma/schema.prisma
+
+5. Run the migration
+npx prisma migrate dev
+
+6. Generate the prisma for use the prisma schema as typescript type
+npx prisma generate
